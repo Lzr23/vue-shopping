@@ -45,7 +45,7 @@ router.post("/login", (req,res,next) => {
 
 //2.登出接口
 router.post("/logout", (req,res,next) => {
-  //清空cookie的用户ID,设置过期时间为上一秒
+  //清空cookie的用户ID,设置过期时间为上一毫秒
   res.cookie("userId","",{
     maxAge:-1
   });
@@ -122,23 +122,19 @@ router.get("/cartList", (req,res,next) => {
 //6.购物车删除
 router.post("/cartDel", (req,res,next) => {
   let userId = req.cookies.userId,productId = req.body.productId;
-  User.update({
-        userId:userId
-      },{
+  User.update({ userId },{
       $pull:{
-        'cartList':{
-          productId
-        }
+        'cartList':{ productId }
       }
     }, (err,doc) => {
       if(err){
-        res.json({
+        return res.json({
           status:'1',
           msg:err.message,
           result:''
         });
       }
-      res.json({
+      return res.json({
         status:'0',
         msg:'',
         result:'suc'
@@ -265,7 +261,41 @@ router.post("/setDefault", (req,res,next) => {
     })
   });
 });
+router.post("/addAddress", (req, res) => {
+  let { userId } = req.cookies
+  let { userName, streetName, postCode, tel } = req.body
+  let addressId = (new Date()).getTime() + parseInt(Math.random() * 9999) + parseInt(Math.random() * 9999)
+  User.findOne({ userId }, (err, doc) => {
+    console.log(doc)
+    if (err) {
+      return res.json({
+        status: '1',
+        msg: err.message
+      })
+    }
+    doc.addressList.push({
+      addressId,
+      userName,
+      streetName,
+      postCode,
+      tel
+    })
+    doc.save((err, doc) => {
+      if (err) {
+        return res.json({
+          status: '1',
+          msg: err.message
+        })
+      }
+      res.json({
+        status: '0',
+        msg: '添加收货地址成功'
+      })
 
+    })
+  })
+
+})
 //11.删除地址接口
 router.post("/delAddress", (req,res,next) => {
   let userId = req.cookies.userId,addressId = req.body.addressId;

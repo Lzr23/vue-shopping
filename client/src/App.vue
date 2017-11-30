@@ -1,43 +1,25 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <el-switch active-color="red" inactive-color="green" v-model="value1">
-    </el-switch>
-    <div @click="add">
-      {{ count }}
-    </div>
-    <router-view/>
+    <!-- 使用头部组件 -->
+    <nav-header></nav-header>
+    <!-- 路由的出口 -->
+    <router-view></router-view>
+    <!-- 使用底部组件 -->
+    <nav-footer></nav-footer>
   </div>
 </template>
 
 <script>
+// 导入头部
+import NavHeader from './components/NavHeader'
+// 导入底部
+import NavFooter from './components/NavFooter'
 export default {
-  name: 'app',
-  data () {
-    return {
-      value1: true
-    }
-  },
-  computed: {
-    count () {
-      return this.$store.state.count
-    }
-  },
-  methods: {
-    add () {
-      this.$store.dispatch('increment')
-    }
+  components: {
+    // 注册头部为App的子组件
+    NavHeader,
+    // 注册底部为App的子组件
+    NavFooter
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
