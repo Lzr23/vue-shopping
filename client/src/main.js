@@ -20,7 +20,7 @@ Vue.use(VueLazyload, {
   try: 3
 })
 Vue.use(VueAxios, Axios)
-Axios.defaults.baseURL = apiConfig.baseUrl;
+Axios.defaults.baseURL = apiConfig.baseUrl
 
 Vue.filter('currency', currency)
 
