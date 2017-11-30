@@ -12,6 +12,7 @@ import './assets/css/product.css'
 import VueLazyload from 'vue-lazyload'
 import VueInfiniteScroll from 'vue-infinite-scroll'
 import {currency} from './util/currency'
+import apiConfig from '../config/api.config'
 
 Vue.use(VueInfiniteScroll)
 Vue.use(VueLazyload, {
@@ -19,6 +20,8 @@ Vue.use(VueLazyload, {
   try: 3
 })
 Vue.use(VueAxios, Axios)
+Axios.defaults.baseURL = apiConfig.baseUrl;
+
 Vue.filter('currency', currency)
 
 Vue.config.productionTip = false
