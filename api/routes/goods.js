@@ -5,6 +5,7 @@ let User    = require('../models/user');
 
 //1.查询商品列表数据
 router.get("/list", (req,res,next) => {
+  console.log(req.originalUrl)
   let page        = parseInt(req.param("page", 1));      //获取当前页码
   let pageSize    = parseInt(req.param("pageSize", 10));  //获取页的大小
   let priceLevel  = req.param("priceLevel", 'all');          //值为all,0,1,2,3 all就是价格不筛选，0表示0-100，1表示100-500，2表示500-1000，3表示1000-5000
